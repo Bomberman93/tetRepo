@@ -1,13 +1,4 @@
-function convertS(s) {
-  const hours = Math.floor(s / 60 / 60);
-  s = s - 60 * 60 * hours;
-  const minutes = Math.floor(s / 60);
-  s = s - 60 * minutes;
-  const secunds = s;
-  refs.hours.innerHTML = hours.toString().padStart(2, 0);
-  refs.minutes.innerHTML = minutes.toString().padStart(2, 0);
-  refs.secunds.innerHTML = secunds.toString().padStart(2, 0);
-};
+import './sass/main.scss';
 let secund = 0;
 let intervalId;
 
@@ -17,18 +8,19 @@ const refs = {
   secunds: document.querySelector('#secunds'),
   targetTimer: document.querySelector('#target-timer'),
   save: document.querySelector('#save'),
+  timestamp: document.querySelector('#timestamp'),
 };
 
 refs.save.addEventListener('click', e => {
-  imitatedServer('times').then(res => {
-    const times = res === null ? [] : res;
-    times.push(secund);
-    return times;
-  })
-  .then((times) => {
-    return imitatedServer('times', 'SET', times);
-  })
-  .catch(console.log);
+  imitatedServer('times')
+    .then(res => {
+      const times = res === null ? [] : res;
+      times.push(secund);
+      return times;
+    })
+    .then(times => imitatedServer('times', 'SET', times))
+
+    .catch(console.log);
 });
 
 refs.targetTimer.addEventListener('click', onTimerClick);
@@ -44,7 +36,18 @@ function onTimerClick(e) {
     }, 1000);
     e.target.textContent = 'Stop';
   }
-};
+}
+
+function convertS(s) {
+  const hours = Math.floor(s / 60 / 60);
+  s = s - 60 * 60 * hours;
+  const minutes = Math.floor(s / 60);
+  s = s - 60 * minutes;
+  const secunds = s;
+  refs.hours.innerHTML = hours.toString().padStart(2, 0);
+  refs.minutes.innerHTML = minutes.toString().padStart(2, 0);
+  refs.secunds.innerHTML = secunds.toString().padStart(2, 0);
+}
 
 function printTimestamp(s) {
   const hours = Math.floor(s / 60 / 60);
@@ -58,14 +61,14 @@ function printTimestamp(s) {
       .toString()
       .padStart(2, 0)}</li>`,
   );
-};
+}
 
 const imitatedServer = (key, type = 'GET', data = {}) => {
   const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
   return new Promise((res, rej) => {
     setTimeout(() => {
-      if (Math.random() > 0.2) {
+      if (Math.random() > 0.1) {
         if (type === 'GET') {
           res(JSON.parse(localStorage.getItem(key)));
         } else if (type === 'SET') {
@@ -78,3 +81,11 @@ const imitatedServer = (key, type = 'GET', data = {}) => {
     }, getRandomInt(1000, 5000));
   });
 };
+
+imitatedServer('times')
+  .then(times => {
+    if (times === null) return;
+    console.log(times);
+    times.forEach(printTimestamp);
+  })
+  .catch(console.log);
