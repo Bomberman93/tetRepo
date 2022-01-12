@@ -1,0 +1,1 @@
+{"version":3,"sources":["common.css"],"names":[],"mappings":"AAAA,OACE,iBACF,CAEA,IACE,YAAa,CACb,sBACF","file":"common.ea0a8dd3.css","sourceRoot":"../src","sourcesContent":[".panel {\n  text-align: center;\n}\n\n.h1 {\n  display: flex;\n  justify-content: center;\n}\n"]}
