@@ -1,8 +1,37 @@
-.panel {
+*{
+  margin: 0,auto;
+} 
+/* .panel {
   text-align: center;
 }
 
 .h1 {
   display: flex;
   justify-content: center;
+} */ */
+
+header{
+  background-color: chartreuse;
+  height: 100%;
+  padding-top: 20px;
 }
+
+.menu__link {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+}
+
+a{
+  text-decoration: none;
+  border: solid 4px tomato;
+  border-radius: 2px;
+  background-color: blueviolet;
+  padding: 5px;
+  color: aqua;
+}
+a:hover{
+  color: black;
+  background-color: yellow;
+}
+
