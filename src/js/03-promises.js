@@ -65,6 +65,7 @@ const imitatedServer = (key, type = 'GET', data = {}) => {
 
   return new Promise((res, rej) => {
     setTimeout(() => {
+      console.log('nikita');
       if (Math.random() > 0.2) {
         if (type === 'GET') {
           res(JSON.parse(localStorage.getItem(key)));
